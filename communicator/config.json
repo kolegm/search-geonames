@@ -1,0 +1,15 @@
+{
+  "uri": "http://api.geonames.org",
+  "searchByQuery": "/searchJSON",
+  "findNearBy": "/findNearbyJSON",
+  "wikiSearchByQuery": "/wikipediaSearchJSON",
+  "wikiFindNearBy": "/findNearbyWikipediaJSON",
+  "options": {
+    "username": "demo",
+    "isNameRequired": "true",
+    "maxRows": "20",
+    "style": "LONG",
+    "lang": "en",
+    "fuzzy": "0.8"
+  }
+}

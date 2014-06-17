@@ -1,0 +1,29 @@
+{
+  "name": "search-geonames",
+  "version": "0.0.1",
+  "description": "Public search geographical place using Geonames API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "underscore": "^1.6.0",
+    "request": "^2.36.0"
+  },
+  "keywords": [
+    "search",
+    "place",
+    "geonames",
+    "geocoder",
+    "wikipedia"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kolegm/search-geonames.git"
+  },
+  "author": { 
+    "name": "Oleg Kravchuk",
+    "email": "kolegm.real@gmail.com"
+  },
+  "license": "ISC"
+}
