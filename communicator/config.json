@@ -8,7 +8,7 @@
     "username": "demo",
     "isNameRequired": "true",
     "maxRows": "20",
-    "style": "LONG",
+    "style": "FULL",
     "lang": "en",
     "fuzzy": "0.8"
   }

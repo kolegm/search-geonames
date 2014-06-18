@@ -8,6 +8,10 @@ const LATITUDE = '50.45';
 const LONGITUDE = '30.523';
 const LANGUAGE = 'en';
 
+var options = {
+  language: LANGUAGE
+};
+
 function callback (error, result) {
   if (error) console.log(error);
   console.log(result);
@@ -21,26 +25,26 @@ console.log('by geo coords: ' + LATITUDE + ', ' + LONGITUDE);
 communicator.searchByQuery(
   ADDRESS, 
   callback,
-  { language: LANGUAGE }
+  options
 );
 
 communicator.findNearBy(
   LATITUDE, 
   LONGITUDE,
   callback,
-  { language: LANGUAGE }
+  options
 );
 
 communicator.wikiSearchByQuery(
   ADDRESS, 
   callback,
-  { language: LANGUAGE }
+  options
 );
 
 communicator.wikiFindNearBy(
   LATITUDE, 
   LONGITUDE,
   callback,
-  { language: LANGUAGE }
+  options
 );
 
