@@ -1,4 +1,3 @@
-var util = require('util');
 var _ = require('underscore');
 
 var Searcher = require('./communicator/request');
