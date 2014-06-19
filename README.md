@@ -3,25 +3,14 @@
 ### General
 
 Node.js module for geocoding and reverse geocoding.  
-[**Uses service Geonames API.**](https://developers.google.com/maps/documentation/geocoding)
 
-
- * [Doc Geonames API - Wikipedia fulltext search ] (http://www.geonames.org/export/wikipedia-webservice.html#wikipediaSearch)
- * [Example](Example: )
- *
- * [Doc Geonames API - find nerby Wikipedia Entries / reverse geocoding ] (http://www.geonames.org/export/wikipedia-webservice.html#findNearbyWikipedia)
- * [Example](http://api.geonames.org/findNearbyWikipediaJSON?lat=47&lng=9&username=kolegm)
-
-
-
-
-  Geocoding. Geonames API - [search by query](http://www.geonames.org/export/geonames-search.html)
-It is the process of matching address with geographic coordinates. [Example.](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG)
+Geocoding. Geonames API - [search by query](http://www.geonames.org/export/geonames-search.html)
+It is the process of matching address with geographic coordinates. [Example.](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG)  
 Reverse Geocoding. Geonames API - [findNearBy](http://www.geonames.org/export/web-services.html#findNearby)
-It is the process of matching geographic coordinates with address. [Example.](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG)
-Wikipedia, search data about location. Geonames API - [search by query](http://www.geonames.org/export/wikipedia-webservice.html#wikipediaSearch). [Example.](hhttp://api.geonames.org/wikipediaSearchJSON?q=london&username=demo&maxRows=10)
-Wikipedia, search data about location. Geonames API - [search by lat/lng](http://www.geonames.org/export/wikipedia-webservice.html#findNearbyWikipedia)).
-[Example.](ttp://api.geonames.org/findNearbyWikipediaJSON?lat=47&lng=9&username=demo)
+It is the process of matching geographic coordinates with address. [Example.](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG)  
+Wikipedia, search data about location. Geonames API - [Wikipedia fulltext search](http://www.geonames.org/export/wikipedia-webservice.html#wikipediaSearch). [Example.](http://api.geonames.org/wikipediaSearchJSON?q=london&username=demo&maxRows=10)  
+Wikipedia, search data about location. Geonames API - [find nerby Wikipedia Entries](http://www.geonames.org/export/wikipedia-webservice.html#findNearbyWikipedia).
+[Example.](http://api.geonames.org/findNearbyWikipediaJSON?lat=47&lng=9&username=demo)  
 
 [Output format like JSON](https://developers.google.com/maps/documentation/geocoding/#JSON)
 
