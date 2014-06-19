@@ -12,9 +12,9 @@ Wikipedia, search data about location. Geonames API - [Wikipedia fulltext search
 Wikipedia, search data about location. Geonames API - [find nerby Wikipedia Entries](http://www.geonames.org/export/wikipedia-webservice.html#findNearbyWikipedia).
 [Example.](http://api.geonames.org/findNearbyWikipediaJSON?lat=47&lng=9&username=demo)  
 
-[Output format like JSON](https://developers.google.com/maps/documentation/geocoding/#JSON)
+Output format like JSON.
 
-[Usage Limits](https://developers.google.com/maps/documentation/geocoding/#Limits)
+[Description](http://www.geonames.org/export/#ws)
 
 ### Installation
 >npm install search-geonames [-S]
