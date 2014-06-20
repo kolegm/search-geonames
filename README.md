@@ -1,7 +1,6 @@
 ##search-geonames
 
 ### General
-
 Node.js module for geocoding and reverse geocoding.  
 
 Geocoding. Geonames API - [search by query](http://www.geonames.org/export/geonames-search.html).
