@@ -1,6 +1,6 @@
 {
   "name": "search-geonames",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Public search geographical place using Geonames API",
   "main": "index.js",
   "scripts": {

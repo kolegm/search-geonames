@@ -8,11 +8,14 @@ var Parser = require('./communicator/parser');
  */
 function CommunicationWrapper() {}
 
-
 CommunicationWrapper.prototype.extendCallback = function (callback) {
   return function (error, data) { 
+    (error)
+      ? Parser.emit('parse_error', error)
+      : Parser.emit('parse_data', data);
+    
     if (_.isFunction(callback)) {
-      callback(error, Parser.process(data));
+      callback(error, data);
     }
   }
 }
@@ -21,32 +24,32 @@ CommunicationWrapper.prototype.extendCallback = function (callback) {
  * @access public
  */
 CommunicationWrapper.prototype.searchByQuery = function (query, callback, options) {
-  callback = this.extendCallback(callback);
-  Searcher.searchByQuery(query, callback, options);
+  var extendedCallback = this.extendCallback(callback);
+  Searcher.searchByQuery(query, extendedCallback, options);
 }
 
 /**
  * @access public
  */
 CommunicationWrapper.prototype.findNearBy = function (lat, lng, callback, options) {
-  callback = this.extendCallback(callback);
-  Searcher.findNearBy(lat, lng, this.extendCallback(callback), options);
+  var extendedCallback = this.extendCallback(callback);
+  Searcher.findNearBy(lat, lng, extendedCallback, options);
 }
 
 /**
  * @access public
  */
 CommunicationWrapper.prototype.wikiSearchByQuery = function (query, callback, options) {
-  callback = this.extendCallback(callback);
-  Searcher.wikiSearchByQuery(query, this.extendCallback(callback), options);
+  var extendedCallback = this.extendCallback(callback);
+  Searcher.wikiSearchByQuery(query, extendedCallback, options);
 }
 
 /**
  * @access public
  */
 CommunicationWrapper.prototype.wikiFindNearBy = function (lat, lng, callback, options) {
-  callback = this.extendCallback(callback);
-  Searcher.wikiFindNearBy(lat, lng, this.extendCallback(callback), options);
+  var extendedCallback = this.extendCallback(callback);
+  Searcher.wikiFindNearBy(lat, lng, extendedCallback, options);
 }
 
 module.exports = new CommunicationWrapper();

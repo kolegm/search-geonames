@@ -129,8 +129,9 @@ Searcher.prototype._send = function (callback) {
     }, function (error, response, body) {
       if (error) {
         return callback(error);
+      } else {
+        callback(null, JSON.parse(body));
       }
-      callback(null, JSON.parse(body));
     });
   } catch (error) {
     return callback(error);

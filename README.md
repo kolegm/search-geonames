@@ -40,7 +40,7 @@ var options = {
 // use callback to return result from geocoding process
 function callback (error, result) {
   if (error) console.log(error); // on error
-  console.log(result); // on success
+  else console.log(result); // on success
 }
 
 // address geocoding

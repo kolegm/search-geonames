@@ -14,37 +14,11 @@ var options = {
 
 function callback (error, result) {
   if (error) console.log(error);
-  console.log(result);
+  else console.log(result);
 }
 
-console.log('search process');
-console.log('result in language: ' + LANGUAGE);
-console.log('by address: ' + ADDRESS);
-console.log('by geo coords: ' + LATITUDE + ', ' + LONGITUDE);
+communicator.searchByQuery(ADDRESS, callback, options);
+communicator.findNearBy(LATITUDE, LONGITUDE, callback, options);
 
-communicator.searchByQuery(
-  ADDRESS, 
-  callback,
-  options
-);
-
-communicator.findNearBy(
-  LATITUDE, 
-  LONGITUDE,
-  callback,
-  options
-);
-
-communicator.wikiSearchByQuery(
-  ADDRESS, 
-  callback,
-  options
-);
-
-communicator.wikiFindNearBy(
-  LATITUDE, 
-  LONGITUDE,
-  callback,
-  options
-);
-
+communicator.wikiSearchByQuery(ADDRESS, callback, options);
+communicator.wikiFindNearBy(LATITUDE, LONGITUDE, callback, options);

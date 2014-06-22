@@ -24,11 +24,30 @@
  *   }}
  */
 
+var util = require('util');
+var EventEmmitter = require('events').EventEmitter;
+
+var parser;
+
 function Parser() {}
 
-Parser.prototype.process = function (data) {
-  // @todo: check status, transform result to your format
-  return data;
-}
+util.inherits(Parser, EventEmmitter);
 
-module.exports = new Parser();
+parser = new Parser();
+
+parser.on('parse_error', function (error) {
+  switch (error.code) {
+    case 'ENOTFOUND':
+      error.message = 'Connection refused';
+      break;
+  }
+  return error;
+});
+
+parser.on('parse_data', function (data) {
+  // @todo: check status, transform result to your format
+  console.log('good');
+  return data;
+});
+
+module.exports = parser;
