@@ -46,7 +46,6 @@ parser.on('parse_error', function (error) {
 
 parser.on('parse_data', function (data) {
   // @todo: check status, transform result to your format
-  console.log('good');
   return data;
 });
 
