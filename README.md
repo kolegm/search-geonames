@@ -7,12 +7,15 @@ Node.js module for geocoding and reverse geocoding.
 Geocoding. Geonames API - [search by query](http://www.geonames.org/export/geonames-search.html).  
 It is the process of matching address with geographic coordinates.  
 [Response example](http://api.geonames.org/searchJSON?q=kyiv%20city&username=demo&style=short).  
+
 Reverse Geocoding. Geonames API - [findNearBy](http://www.geonames.org/export/web-services.html#findNearby).  
 It is the process of matching geographic coordinates with address.  
-[Response example](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG).  
+[Response example](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG). 
+
 Wikipedia, search data by query about location.  
 Geonames API - [Wikipedia fulltext search](http://www.geonames.org/export/wikipedia-webservice.html#wikipediaSearch).  
 [Response example](http://api.geonames.org/wikipediaSearchJSON?q=london&username=demo&maxRows=10).  
+
 Wikipedia, search data by coordinates about location.  
 Geonames API - [find nerby Wikipedia Entries](http://www.geonames.org/export/wikipedia-webservice.html#findNearbyWikipedia).  
 [Response example](http://api.geonames.org/findNearbyWikipediaJSON?lat=47&lng=9&username=demo).  
