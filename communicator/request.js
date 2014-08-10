@@ -30,21 +30,23 @@ function Searcher() {
  * @access public
  */
 Searcher.prototype.searchByQuery = function (query, callback, options) {
-  query = (query).toString();
+  query = this._parseAddress(query);
+
   if (!query.length) {
     return callback(
-      new CommunicationError("Query parameter is mandatory.")
+      new CommunicationError(util.format(
+        'Query parameter is mandatory for method `search by query`. Input value is \'%s\'',
+        address
+      ))
     );
   }
 
   this._useExternalMethod('searchByQuery');
 
-  options = _.extend(
-    { q: query },
-    (options || {})
-  );
+  options = _.extend({}, (options || {}));
+  options = _.extend(options, { q: query });
   this._useOptions(options);
-  
+
   this._send(callback);
 };
 
@@ -52,21 +54,23 @@ Searcher.prototype.searchByQuery = function (query, callback, options) {
  * @access public
  */
 Searcher.prototype.findNearBy = function (lat, lng, callback, options) {
-  lat = parseFloat(lat);
-  lng = parseFloat(lng);
-  
+  lat = this._parseCoordinate(lat);
+  lng = this._parseCoordinate(lng);
+
   if (!lat || !lng) {
     return callback(
-      new CommunicationError("Geographical coordinates are mandatory.")
+      new CommunicationError(util.format(
+        'Geographical coordinates are mandatory for method `search by query`. Input values: latitude is \'%s\', longitude is \'%s\'',
+        lat,
+        lng
+      ))
     );
   }
 
   this._useExternalMethod('findNearBy');
 
-  options = _.extend(
-    { lat: lat, lng: lng },
-    (options || {})
-  );
+  options = _.extend({}, (options || {}));
+  options = _.extend(options, { lat: lat, lng: lng });
   this._useOptions(options);
 
   this._send(callback);
@@ -76,21 +80,23 @@ Searcher.prototype.findNearBy = function (lat, lng, callback, options) {
  * @access public
  */
 Searcher.prototype.wikiSearchByQuery = function (query, callback, options) {
-  query = (query).toString();
+  query = this._parseAddress(query);
+
   if (!query.length) {
     return callback(
-      new CommunicationError("Query parameter is mandatory.")
+      new CommunicationError(util.format(
+        'Query parameter is mandatory for method `wiki search by query`. Input value is \'%s\'',
+        address
+      ))
     );
   }
 
   this._useExternalMethod('wikiSearchByQuery');
 
-  options = _.extend(
-    { q: query },
-    (options || {})
-  );
+  options = _.extend({}, (options || {}));
+  options = _.extend(options, { q: query });
   this._useOptions(options);
-  
+
   this._send(callback);
 };
 
@@ -98,21 +104,23 @@ Searcher.prototype.wikiSearchByQuery = function (query, callback, options) {
  * @access public
  */
 Searcher.prototype.wikiFindNearBy = function (lat, lng, callback, options) {
-  lat = parseFloat(lat);
-  lng = parseFloat(lng);
-  
+  lat = this._parseCoordinate(lat);
+  lng = this._parseCoordinate(lng);
+
   if (!lat || !lng) {
     return callback(
-      new CommunicationError("Geographical coordinates are mandatory.")
+      new CommunicationError(util.format(
+        'Geographical coordinates are mandatory for method `search by query`. Input values: latitude is \'%s\', longitude is \'%s\'',
+        lat,
+        lng
+      ))
     );
   }
-  
+
   this._useExternalMethod('wikiFindNearBy');
 
-  options = _.extend(
-    { lat: lat, lng: lng },
-    (options || {})
-  );
+  options = _.extend({}, (options || {}));
+  options = _.extend(options, { lat: lat, lng: lng });
   this._useOptions(options);
 
   this._send(callback);
@@ -129,14 +137,20 @@ Searcher.prototype._send = function (callback) {
     }, function (error, response, body) {
       if (error) {
         return callback(error);
+      } else if(response.statusCode != 200) {
+        error = new CommunicationError(util.format(
+          'Response status code is \'%s\'',
+          response.statusCode
+        ));
+        callback(error);
       } else {
         callback(null, JSON.parse(body));
       }
-    });
+    }).end();
   } catch (error) {
     return callback(error);
   }
-}
+};
 
 /**
  * @access protected
@@ -147,23 +161,23 @@ Searcher.prototype._getUri = function () {
   }
 
   this._checkUriWithError();
-  
+
   return this.uri;
-}
+};
 
 /**
  * @access protected
  */
 Searcher.prototype._initUri = function () {
   this.uri = config['uri'];
-}
+};
 
 /**
  * @access protected
  */
 Searcher.prototype._checkUri = function () {
   return (this.uri && this.uri.length);
-}
+};
 
 /**
  * @access protected
@@ -173,7 +187,7 @@ Searcher.prototype._checkUriWithError = function () {
     throw new CommunicationError("Uri is not valid.")
   }
   return true;
-}
+};
 
 /**
  * @access protected
@@ -181,7 +195,7 @@ Searcher.prototype._checkUriWithError = function () {
 Searcher.prototype._useExternalMethod = function (methodName) {
   methodName = (methodName).toString();
   method = config[methodName];
-  
+
   if (!method) {
     throw new CommunicationError(util.format(
       'Method mapping %sis incorrect.',
@@ -190,7 +204,7 @@ Searcher.prototype._useExternalMethod = function (methodName) {
   }
 
   this.method = method;
-}
+};
 
 /**
  * @access protected
@@ -198,14 +212,14 @@ Searcher.prototype._useExternalMethod = function (methodName) {
 Searcher.prototype._getMethod = function () {
   this._checkMethodWithError();
   return this.method;
-}
+};
 
 /**
  * @access protected
  */
 Searcher.prototype._checkMethod = function () {
   return (this.method && this.method.length);
-}
+};
 
 /**
  * @access protected
@@ -215,28 +229,53 @@ Searcher.prototype._checkMethodWithError = function () {
     throw new CommunicationError("Method is not valid.")
   }
   return true;
-}
+};
 
 /**
  * @access protected
  */
 Searcher.prototype._useOptions = function (options) {
-  this.options = _.extend({}, this.defaultOptions);
+  this.options = _.extend({}, this._defaultOptions);
   _.extend(this.options, (options || {}));
-}
+};
 
 /**
  * @access protected
  */
 Searcher.prototype._initDefaultOptions = function () {
-  this.defaultOptions = _.extend({}, config['options'] || {});
-}
+  this._defaultOptions = _.extend({}, config['options'] || {});
+};
 
 /**
  * @access protected
  */
 Searcher.prototype._getOptions = function () {
   return this.options;
-}
+};
 
-module.exports = new Searcher();
+/**
+ * @access protected
+ */
+Searcher.prototype._parseAddress = function (str) {
+  str = _.isEmpty(str)
+    ? EMPTY_ADDRESS_VALUE
+    : (str).toString();
+
+  return str;
+};
+
+/**
+ * @access protected
+ */
+Searcher.prototype._parseCoordinate = function (crd) {
+  if (crd) {
+    crd = parseFloat((crd).toString().replace(',','.'));
+  }
+  if (!_.isNumber(crd)) {
+    crd = EMPTY_COORDINATE_VALUE;
+  }
+
+  return crd;
+};
+
+module.exports = Searcher;

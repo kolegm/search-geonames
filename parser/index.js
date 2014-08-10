@@ -1,6 +1,6 @@
 /**
  * [Doc Geonames API](http://www.geonames.org/export/webservice-exception.html)
- * 
+ *
  * Error Code Description
  *  10 Authorization Exception
  *  11 record does not exist
@@ -24,29 +24,19 @@
  *   }}
  */
 
-var util = require('util');
-var EventEmmitter = require('events').EventEmitter;
+//var util = require('util');
+var _ = require('underscore');
 
-var parser;
-
-function Parser() {}
-
-util.inherits(Parser, EventEmmitter);
-
-parser = new Parser();
-
-parser.on('parse_error', function (error) {
-  switch (error.code) {
-    case 'ENOTFOUND':
-      error.message = 'Connection refused';
-      break;
-  }
-  return error;
-});
-
-parser.on('parse_data', function (data) {
-  // @todo: check status, transform result to your format
+module.exports.parseData = function (data) {
   return data;
-});
+};
 
-module.exports = parser;
+module.exports.parseError = function (error) {
+  if (error && _.isObject(error)) {
+    switch (error.code) {
+      case 'ENOTFOUND':
+        error.message = 'Connection refused.';
+        break;
+    }
+  }
+}

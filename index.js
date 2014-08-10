@@ -1,19 +1,18 @@
 var _ = require('underscore');
 
 var Searcher = require('./communicator/request');
-var Parser = require('./communicator/parser');
+var Parser = require('./parser');
 
 /**
- * Wrapper - call Google geocoder and parse result
+ * Wrapper - call Geonames geocoder and parse result
  */
-function CommunicationWrapper() {}
+function SearchWrapper() {}
 
-CommunicationWrapper.prototype.extendCallback = function (callback) {
-  return function (error, data) { 
-    (error)
-      ? Parser.emit('parse_error', error)
-      : Parser.emit('parse_data', data);
-    
+SearchWrapper.prototype.extendCallback = function (callback) {
+  return function (error, data) {
+    error = Parser.parseError(error);
+    data = Parser.parseData(data);
+
     if (_.isFunction(callback)) {
       callback(error, data);
     }
@@ -23,33 +22,37 @@ CommunicationWrapper.prototype.extendCallback = function (callback) {
 /**
  * @access public
  */
-CommunicationWrapper.prototype.searchByQuery = function (query, callback, options) {
+SearchWrapper.prototype.searchByQuery = function (query, callback, options) {
   var extendedCallback = this.extendCallback(callback);
-  Searcher.searchByQuery(query, extendedCallback, options);
+  var searcher = new Searcher();
+  searcher.searchByQuery(query, extendedCallback, options);
 }
 
 /**
  * @access public
  */
-CommunicationWrapper.prototype.findNearBy = function (lat, lng, callback, options) {
+SearchWrapper.prototype.findNearBy = function (lat, lng, callback, options) {
   var extendedCallback = this.extendCallback(callback);
-  Searcher.findNearBy(lat, lng, extendedCallback, options);
+  var searcher = new Searcher();
+  searcher.findNearBy(lat, lng, extendedCallback, options);
 }
 
 /**
  * @access public
  */
-CommunicationWrapper.prototype.wikiSearchByQuery = function (query, callback, options) {
+SearchWrapper.prototype.wikiSearchByQuery = function (query, callback, options) {
   var extendedCallback = this.extendCallback(callback);
-  Searcher.wikiSearchByQuery(query, extendedCallback, options);
+  var searcher = new Searcher();
+  searcher.wikiSearchByQuery(query, extendedCallback, options);
 }
 
 /**
  * @access public
  */
-CommunicationWrapper.prototype.wikiFindNearBy = function (lat, lng, callback, options) {
+SearchWrapper.prototype.wikiFindNearBy = function (lat, lng, callback, options) {
   var extendedCallback = this.extendCallback(callback);
-  Searcher.wikiFindNearBy(lat, lng, extendedCallback, options);
+  var searcher = new Searcher();
+  searcher.wikiFindNearBy(lat, lng, extendedCallback, options);
 }
 
-module.exports = new CommunicationWrapper();
+module.exports = new SearchWrapper();

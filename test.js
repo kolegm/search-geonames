@@ -3,9 +3,9 @@
  */
 var communicator = require('./index');
 
-const ADDRESS = 'Kyiv';
-const LATITUDE = '50.45';
-const LONGITUDE = '30.523';
+const ADDRESS = 'Belgium, Antwerp';
+const LATITUDE = '51.216667';
+const LONGITUDE = '4.4';
 const LANGUAGE = 'en';
 
 var options = {
