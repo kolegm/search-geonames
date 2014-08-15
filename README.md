@@ -10,7 +10,7 @@ It is the process of matching address with geographic coordinates.
 
 Reverse Geocoding. Geonames API - [findNearBy](http://www.geonames.org/export/web-services.html#findNearby).  
 It is the process of matching geographic coordinates with address.  
-[Response example](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG). 
+[Response example](http://api.geonames.org/findNearbyJSON?lat=47.3&lng=9&username=demo&style=LONG).
 
 Wikipedia, search data by query about location.  
 Geonames API - [Wikipedia fulltext search](http://www.geonames.org/export/wikipedia-webservice.html#wikipediaSearch).  
@@ -38,7 +38,7 @@ const LATITUDE = '50.45';
 const LONGITUDE = '30.523';
 const LANGUAGE = 'en';
 
-// you can use Google options to manage result format
+// you can use Geonames options to manage result format
 var options = {
   language: LANGUAGE
 };

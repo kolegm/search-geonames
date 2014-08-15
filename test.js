@@ -1,9 +1,8 @@
-/**
- * @todo use mocha test
- */
+var util = require('util');
+
 var communicator = require('./');
 
-const ADDRESS = 'Belgium, Antwerp';
+const ADDRESS = process.argv[2] || 'Belgium, Antwerp';
 const LATITUDE = '51.216667';
 const LONGITUDE = '4.4';
 const LANGUAGE = 'en';
@@ -14,11 +13,11 @@ var options = {
 
 function callback (error, result) {
   if (error) console.log(error);
-  else console.log(result);
+  else console.log(util.inspect(result, {depth: 5}));
 }
 
 communicator.searchByQuery(ADDRESS, callback, options);
-communicator.findNearBy(LATITUDE, LONGITUDE, callback, options);
-
-communicator.wikiSearchByQuery(ADDRESS, callback, options);
-communicator.wikiFindNearBy(LATITUDE, LONGITUDE, callback, options);
+// communicator.findNearBy(LATITUDE, LONGITUDE, callback, options);
+//
+// communicator.wikiSearchByQuery(ADDRESS, callback, options);
+// communicator.wikiFindNearBy(LATITUDE, LONGITUDE, callback, options);

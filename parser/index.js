@@ -24,12 +24,26 @@
  *   }}
  */
 
-//var util = require('util');
+const STATUS_AUTH_EXCEPTION = '10';
+const STATUS_RECORD_NOT_EXIST = '11';
+const STATUS_OTHER_ERROR = '12';
+const STATUS_DATABASE_TIMEOUT = '13';
+const STATUS_INVALID_PARAMETER = '14';
+const STATUS_NO_RESULT = '15';
+const STATUS_DUPLICATE_PARAMETER = '16';
+const STATUS_POSTAL_CODE_MANDATORY = '17';
+const STATUS_DAILY_LIMIT = '18';
+const STATUS_HOURLY_LIMIT = '19';
+const STATUS_WEEKLY_LIMIT = '20';
+const STATUS_INVALID_INPUT = '21';
+const STATUS_SERVER_OVERLOAD = '22';
+const STATUS_NOT_IMPLEMENTED = '23';
+
+//--------------------------------------------------------------------------------------------------------------------------------
+
 var _ = require('underscore');
 
-module.exports.parseData = function (data) {
-  return data;
-};
+var model = require('./model.json');
 
 module.exports.parseError = function (error) {
   if (error && _.isObject(error)) {
@@ -39,4 +53,71 @@ module.exports.parseError = function (error) {
         break;
     }
   }
+  return error;
+};
+
+/**
+ * Results
+ * When the geocoder returns results, it places them within a (JSON) results array.
+ * Even if the geocoder returns no results (such as if the address doesn't exist) it still returns an empty results array.
+ */
+module.exports.parseData = function (data) {
+  var result = [];
+
+  if (_.isObject(data)) {
+    // check status field
+    if (data.status) {
+      switch (data.status.value) {
+        case STATUS_AUTH_EXCEPTION:
+        case STATUS_RECORD_NOT_EXIST:
+        case STATUS_OTHER_ERROR:
+        case STATUS_DATABASE_TIMEOUT:
+        case STATUS_INVALID_PARAMETER:
+        case STATUS_NO_RESULT:
+        case STATUS_DUPLICATE_PARAMETER:
+        case STATUS_POSTAL_CODE_MANDATORY:
+        case STATUS_DAILY_LIMIT:
+        case STATUS_HOURLY_LIMIT:
+        case STATUS_WEEKLY_LIMIT:
+        case STATUS_INVALID_INPUT:
+        case STATUS_SERVER_OVERLOAD:
+        case STATUS_NOT_IMPLEMENTED:
+        default:
+      }
+    } else {
+      result = parse(data.geonames);
+    }
+  }
+
+  return result;
+};
+
+/**
+ * Convert external data format to internal format
+ */
+function parse (externalHolder) {
+  var internalHolder = [];
+  var internal;
+
+  if (_.isArray(externalHolder)) {
+    _.each(externalHolder, function (external) {
+      internal = convert(external);
+      internalHolder.push(internal);
+    });
+  }
+  return internalHolder;
+}
+
+function convert (external) {
+  var internal = create();
+
+  if (!_.isEmpty(external)) {
+
+  }
+
+  return internal;
+}
+
+function create() {
+  return _.extend({}, model);
 }

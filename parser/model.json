@@ -1,0 +1,39 @@
+{
+  "formatted": null,
+  "country": null,
+  "countryIso": null,
+  "zipcode": null,
+  "state": null,
+  "stateCode": null,
+  "area": null,
+  "city": null,
+  "subcity": null,
+  "subcity1": null,
+  "subcity2": null,
+  "subcity3": null,
+  "subcity4": null,
+  "subcity5": null,
+  "neighborhood": null,
+  "alternative": null,
+  "streetName": null,
+  "streetIntersection": null,
+  "streetAddress": null,
+  "streetNumber": null,
+  "establishment": null,
+  "establishmentCode": null,
+  "premise": null,
+  "premiseCode": null,
+  "subpremise": null,
+  "latitude": null,
+  "longitude": null,
+  "viewport": {
+    "leftTop": {
+      "latitude": null,
+      "longitude": null
+    },
+    "rigthBottom": {
+      "latitude": null,
+      "longitude": null
+    }
+  }
+}
