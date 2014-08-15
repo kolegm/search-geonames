@@ -5,10 +5,10 @@
   "wikiSearchByQuery": "/wikipediaSearchJSON",
   "wikiFindNearBy": "/findNearbyWikipediaJSON",
   "options": {
-    "username": "demo",
+    "username": "kolegm",
     "isNameRequired": "true",
-    "maxRows": "20",
-    "style": "FULL",
+    "maxRows": "10",
+    "style": "full",
     "lang": "en",
     "fuzzy": "0.8"
   }
