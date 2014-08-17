@@ -1,0 +1,26 @@
+{
+  "provider": "geonames",
+  "country": null,
+  "countryIso": null,
+  "zipcode": null,
+  "iata": null,
+  "icao": null,
+  "city": null,
+  "place": null,
+  "link": null,
+  "latitude": null,
+  "longitude": null,
+  "viewport": {
+    "leftTop": {
+      "latitude": null,
+      "longitude": null
+    },
+    "rigthBottom": {
+      "latitude": null,
+      "longitude": null
+    }
+  },
+  "admin": [],
+  "alternate": [],
+  "geoNameId": null
+}

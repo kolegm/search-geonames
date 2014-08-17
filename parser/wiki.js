@@ -1,29 +1,63 @@
 /**
- * [Doc Geonames API](http://www.geonames.org/export/webservice-exception.html)
- * [README](http://download.geonames.org/export/dump/readme.txt)
+ * [Wikipedia Webservice](http://www.geonames.org/export/wikipedia-webservice.html)
  *
  * The main 'geoname' table has the following fields :
  * ---------------------------------------------------
- *  geonameid         : integer id of record in geonames database
- *  name              : name of geographical point (utf8) varchar(200)
- *  asciiname         : name of geographical point in plain ascii characters, varchar(200)
- *  alternatenames    : alternatenames, comma separated, ascii names automatically transliterated, convenience attribute from alternatename table, varchar(8000)
- *  latitude          : latitude in decimal degrees (wgs84)
- *  longitude         : longitude in decimal degrees (wgs84)
- *  feature class     : see http://www.geonames.org/export/codes.html, char(1)
- *  feature code      : see http://www.geonames.org/export/codes.html, varchar(10)
- *  country code      : ISO-3166 2-letter country code, 2 characters
- *  cc2               : alternate country codes, comma separated, ISO-3166 2-letter country code, 60 characters
- *  admin1 code       : fipscode (subject to change to iso code), see exceptions below, see file admin1Codes.txt for display names of this code; varchar(20)
- *  admin2 code       : code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)
- *  admin3 code       : code for third level administrative division, varchar(20)
- *  admin4 code       : code for fourth level administrative division, varchar(20)
- *  population        : bigint (8 byte int)
- *  elevation         : in meters, integer
- *  dem               : digital elevation model, srtm3 or gtopo30, average elevation of 3''x3'' (ca 90mx90m) or 30''x30'' (ca 900mx900m) area in meters, integer. srtm processed by cgiar/ciat.
- *  timezone          : the timezone id (see file timeZone.txt) varchar(40)
- *  modification date : date of last modification in yyyy-MM-dd format
- *
+ *  lang	         :  ISO language code of article text
+ *  title          :  the article title
+ *  summary	       :  a short summary of the article text. Around 300 chars.
+ *                    The text is truncated at a full stop if one is available near char 300, otherwise at the end of a word.
+ *  feature	       :  the wikipedia feature type. A list of types is available here
+ *  countryCode	   :  the ISO country code of the article
+ *  elevation	     :  the elevation in metres (optional may be null), parsed from the article or reverse geocoded.
+ *  population	   :  the population (optional may be null)
+ *  lat            : 	latitude
+ *  lng	           :  longitude
+ *  wikipediaUrl	 :  URL of the article
+ *  thumbnailImg	 :  URL of a small thumbnail image (ca 100x75 px)
+ *  rank	         :  indication of the popularity or relevancy of an article.
+ *                    The rank is an integer number from 1 for the least popular articles to 100 for the most popular articles.
+ *                    It is calculated from the number of links pointing to an article and the article length.
+ *                    The articles are more or less evenly distributed over the 100 ranks
+ */
+
+/**
+ * [Wikipedia Features](http://www.geonames.org/wikipedia/wikipedia_features.html):
+ *  1	  null
+ *  2	  `white space`
+ *  3	  city
+ *  4   landmark
+ *  5	  railwaystation
+ *  6	  edu
+ *  7	  adm2nd
+ *  8	  waterbody
+ *  9	  mountain
+ *  10	airport
+ *  11	isle
+ *  12	river
+ *  13	adm3rd
+ *  14  adm1st
+ *  15	event
+ *  16  country
+ *  17	glacier
+ *  18  pass
+ *  19	forest
+ *  20	landscape
+ *  21	church
+ *  and others
+ */
+
+const FEATURE_COUNTRY = "country";
+const FEATURE_ISLAND = "isle";
+const FEATURE_CITY = "city";
+const FEATURE_AIRPORT = "airport";
+const FEATURE_ADM1 = "adm1st";
+const FEATURE_ADM2 = "adm2nd";
+const FEATURE_ADM3 = "adm3rd";
+const FEATURE_ADM4 = "adm4th";
+const FEATURE_ADM5 = "adm5th";
+
+/**
  * Error Code Description
  *  10 Authorization Exception
  *  11 record does not exist
@@ -62,21 +96,13 @@ const STATUS_INVALID_INPUT = '21';
 const STATUS_SERVER_OVERLOAD = '22';
 const STATUS_NOT_IMPLEMENTED = '23';
 
-const TAG_ADMINISTRATIVE_BOUNDARY = "A"; // country, state, region,...
-const TAG_HYDROGRAPHIC = "H"; // stream, lake, ...
-const TAG_AREA = "L"; // parks,area, ...
-const TAG_POPULATED_PLACE = "P"; // city, village,...
-const TAG_ROAD_RAILROAD = "R"; // road, railroad
-const TAG_SPOT = "S"; // spot, building, farm
-const TAG_HYPSOGRAPHIC = "T"; // mountain, hill, rock,...
-const TAG_UNDERSEA = "A"; // undersea
-const TAG_VEGETATION = "V"; // forest, heath, ...
-
 //--------------------------------------------------------------------------------------------------------------------------------
 
 var _ = require('underscore');
 
-var model = require('./model.json');
+function create() {
+  return _.extend({}, require('./wiki.json'));
+}
 
 module.exports.parseError = function (error) {
   if (error && _.isObject(error)) {
@@ -144,26 +170,26 @@ function parse (externalHolder) {
 function convert (external) {
   var internal = create();
 
-  if (!_.isEmpty(external)) {
+  if (!_.isEmpty(external) && external.title) {
 
     if (external.countryCode) {
       internal.countryIso = external.countryCode;
     }
-    if (external.countryName) {
-      internal.country = external.countryName;
+
+    if (external.wikipediaUrl) {
+      internal.link = external.wikipediaUrl;
     }
-    if (external.adminName1) {
-      internal.state = external.adminName1;
-    }
-    if (external.adminName2) {
-      internal.area = external.adminName2;
+    if (external.thumbnailImg) {
+      internal.picture = external.thumbnailImg;
     }
 
-    //if (external.fcl) // as tag
-    //if (external.adminName3)
-    //if (external.adminName4)
-    //if (external.adminName5)
-    //if (external.toponymName)
+    if (external.summary) {
+      internal.desc = external.summary;
+    }
+
+    if (external.geoNameId) {
+      internal.geoNameId = external.geoNameId;
+    }
 
     if (external.lat) {
       internal.latitude = external.lat;
@@ -171,28 +197,31 @@ function convert (external) {
     if (external.lng) {
       internal.longitude = external.lng;
     }
-    if (external.bbox) {
-      var bbox = external.bbox;
 
-      if (bbox.west) {
-        internal.viewport.leftTop.latitude = bbox.west;
+    if (external.feature) {
+      switch ((external.feature).toLowerCase()) {
+        case FEATURE_COUNTRY:
+          internal.country = external.title;
+          break;
+        case FEATURE_CITY:
+          internal.city = external.title;
+          break;
+        case FEATURE_ISLAND:
+        case FEATURE_AIRPORT:
+        case FEATURE_ADM1:
+        case FEATURE_ADM2:
+        case FEATURE_ADM3:
+        case FEATURE_ADM4:
+        case FEATURE_ADM5:
+          internal.admin = external.title;
+          break;
+        default:
+          internal.place = external.title;
       }
-      if (bbox.north) {
-        internal.viewport.leftTop.longitude = bbox.north;
-      }
-
-      if (bbox.east) {
-        internal.viewport.rigthBottom.latitude = bbox.east;
-      }
-      if (bbox.south) {
-        internal.viewport.rigthBottom.longitude = bbox.south;
-      }
+    } else {
+      internal.city = external.title;
     }
+
+    return internal;
   }
-
-  return internal;
-}
-
-function create() {
-  return _.extend({}, model);
 }

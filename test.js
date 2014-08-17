@@ -17,7 +17,7 @@ function callback (error, result) {
 }
 
 communicator.searchByQuery(ADDRESS, callback, options);
-// communicator.findNearBy(LATITUDE, LONGITUDE, callback, options);
-//
-// communicator.wikiSearchByQuery(ADDRESS, callback, options);
-// communicator.wikiFindNearBy(LATITUDE, LONGITUDE, callback, options);
+communicator.findNearBy(LATITUDE, LONGITUDE, callback, options);
+
+communicator.wikiSearchByQuery(ADDRESS, callback, options);
+communicator.wikiFindNearBy(LATITUDE, LONGITUDE, callback, options);

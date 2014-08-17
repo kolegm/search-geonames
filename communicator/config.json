@@ -6,10 +6,9 @@
   "wikiFindNearBy": "/findNearbyWikipediaJSON",
   "options": {
     "username": "kolegm",
-    "isNameRequired": "true",
+    "isNameRequired": "1",
     "maxRows": "10",
     "style": "full",
-    "lang": "en",
-    "fuzzy": "0.8"
+    "lang": "en"
   }
 }
